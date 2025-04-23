@@ -55,6 +55,16 @@ $total_pending = $total_yearly - $total_collected;
 $collected_percentage = ($total_yearly > 0) ? ($total_collected / $total_yearly) * 100 : 0;
 $pending_percentage = ($total_yearly > 0) ? ($total_pending / $total_yearly) * 100 : 0;
 
+// Get active announcements
+$announcementQuery = "SELECT * FROM announcements WHERE is_active = 1 ORDER BY created_at DESC LIMIT 5";
+$announcementStmt = $conn->prepare($announcementQuery);
+$announcementStmt->execute();
+$announcementResult = $announcementStmt->get_result();
+$announcements = [];
+while ($row = $announcementResult->fetch_assoc()) {
+    $announcements[] = $row;
+}
+
 // Get collected fees percentage per teacher
 $sql_teacher_fees = "SELECT 
     u.name, 
@@ -121,118 +131,289 @@ $availableBalance = ($total_collected + $committeeCollectedFess) - $maintenanceR
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="styles.css"> -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard - MAKTAB-E-IQRA</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js" integrity="sha384-+3hSuUQXGvDDLqZA3hYZLhhDmOuUPD5VuXdHu9Y5Mz3RbYNmvPVzXRCdwPvKcXP8" crossorigin="anonymous"></script>
     <link rel="icon" href="assets/images/logo.png">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="assets/js/sidebar.js"></script>
 </head>
 <body>
     <div class="d-flex" id="wrapper">
         <?php include 'includes/sidebar.php'; ?>
-        <div id="page-content-wrapper" class="container-fluid">
-            <marquee class="d-block w-100 text-secondary fw-bold">AZEEM O SHAAN SALANA JALSA & TAQSEEM E ASNAD MAKTAB-E-IQRA KA 3 RA JALSA RAMADAN KE BAD INSHALLAH</marquee>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <button class="btn btn-primary"> Home </button>
-                    <div class="d-flex align-items-center">
-                        <span class="me-2">👤 <?php echo $_SESSION['user_name']; ?></span>
-                        <a href="modules/logout.php" class="btn btn-danger">Logout</a>
+        <div id="page-content-wrapper">
+            <?php include 'includes/navbar.php'; ?>
+
+            <div class="container-fluid px-4">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <form method="POST" action="" class="bg-white p-3 rounded shadow-sm">
+                            <div class="row g-2">
+                                <div class="col-md-10">
+                                    <select name="academic_year" class="form-select">
+                                        <option value="">Select Academic Year</option>
+                                        <?php
+                                        $currentYear = date('Y');
+                                        for ($i = 0; $i < 5; $i++) {
+                                            $year = $currentYear - $i;
+                                            $nextYear = $year + 1;
+                                            $selected = ($startYear == $year) ? 'selected' : '';
+                                            echo "<option value='$year-$nextYear' $selected>$year-$nextYear</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </nav>
-            <div class="row mt-3">
-                <div class="col-md-3">
-                    <div class="card p-3 text-center text-bg-dark">
-                        <h5>₹ <?php echo number_format($total_yearly) ?></h5>
-                        <p>Total Fees</p>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card p-3 text-center h-100 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="fw-bold text-dark">₹ <?php echo number_format($total_yearly) ?></h5>
+                                <p class="text-muted mb-0">Total Fees</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card p-3 text-center h-100 shadow-sm bg-success bg-opacity-75 text-white">
+                            <div class="card-body">
+                                <h5 class="fw-bold">₹ <?php echo number_format($total_collected); ?></h5>
+                                <p class="mb-0">Collected</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card p-3 text-center h-100 shadow-sm bg-danger bg-opacity-75 text-white cursor-pointer" id="pendingBox">
+                            <div class="card-body">
+                                <h5 class="fw-bold">₹ <?php echo number_format($total_pending); ?></h5>
+                                <p class="mb-0">Pending</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card p-3 text-center h-100 shadow-sm bg-primary bg-opacity-75 text-white">
+                            <div class="card-body">
+                                <h5 class="fw-bold"><?php echo round($collected_percentage,2); ?>%</h5>
+                                <p class="mb-0">Collected %</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card p-3 text-center bg-success text-white">
-                        <h5>₹ <?php echo number_format($total_collected); ?></h5>
-                        <p>Collected</p>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="card p-3 text-center h-100 shadow-sm bg-light">
+                            <div class="card-body">
+                                <h5 class="fw-bold">₹ <?php echo number_format($committeeCollectedFess); ?></h5>
+                                <p class="text-muted mb-0">Committee Collection</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card p-3 text-center h-100 shadow-sm bg-info bg-opacity-75 text-white">
+                            <div class="card-body">
+                                <h5 class="fw-bold">₹ <?php echo number_format($maintenanceResult); ?></h5>
+                                <p class="mb-0">Maintenance</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card p-3 text-center h-100 shadow-sm bg-secondary bg-opacity-75 text-white">
+                            <div class="card-body">
+                                <h5 class="fw-bold">₹ <?php echo number_format($availableBalance); ?></h5>
+                                <p class="mb-0">Available Balance</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card p-3 text-center bg-danger cursor-pointer" id="pendingBox">
-                        <h5>₹ <?php echo number_format($total_pending); ?></h5>
-                        <p>Pending</p>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">Collected Fees Per Teacher</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped border">
+                                        <thead>
+                                            <tr>
+                                                <th>Teacher Name</th>
+                                                <th>Collected Fees</th>
+                                                <th>% Collected</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php 
+                                            $totalPercentage = 0;
+                                            $teacherCount = count($teachers);
+                                            
+                                            foreach ($teachers as $teacher) {
+                                                $percentage = ($teacher['total_fees'] > 0) ? ($teacher['collected_fees'] / $teacher['total_fees']) * 100 : 0;
+                                                $totalPercentage += $percentage;
+                                                $color = '';
+                                                if ($percentage < 40) $color = 'text-danger';
+                                                else if ($percentage < 70) $color = 'text-warning';
+                                                else $color = 'text-success';
+                                                
+                                                echo "<tr>
+                                                        <td>{$teacher['name']}</td>
+                                                        <td>₹ " . number_format($teacher['collected_fees']) . " / ₹ " . number_format($teacher['total_fees']) . "</td>
+                                                        <td class='$color'>" . number_format($percentage, 2) . "%</td>
+                                                    </tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="table-primary">
+                                                <th>Average</th>
+                                                <th></th>
+                                                <th><?php echo ($teacherCount > 0) ? number_format($totalPercentage / $teacherCount, 2) : 0; ?>%</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">Collection Statistics</h5>
+                            </div>
+                            <div class="card-body d-flex align-items-center justify-content-center">
+                                <div style="position: relative; height:250px; width:100%">
+                                    <canvas id="feesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card p-3 text-center bg-primary text-white">
-                        <h5><?php echo round($collected_percentage,2); ?>%</h5>
-                        <p>Collected %</p>
+
+                <!-- Announcements Section -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-white py-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 fw-bold text-primary">
+                                        <i class="fas fa-bullhorn me-2"></i> Announcements
+                                    </h5>
+                                    <a href="manage_announcements.php" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-plus me-1"></i> Manage Announcements
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <?php if (empty($announcements)): ?>
+                                    <p class="text-muted text-center">No announcements available</p>
+                                <?php else: ?>
+                                    <div class="row">
+                                        <?php foreach ($announcements as $announcement): ?>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="card h-100 shadow-sm border-start border-primary border-4">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title"><?php echo htmlspecialchars($announcement['title']); ?></h5>
+                                                        <p class="card-text"><?php echo htmlspecialchars($announcement['content']); ?></p>
+                                                        <p class="card-text">
+                                                            <small class="text-muted">
+                                                                <i class="fas fa-calendar-alt me-1"></i> 
+                                                                <?php echo date('d M Y', strtotime($announcement['created_at'])); ?>
+                                                            </small>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="row mt-3">
-                 <div class="col-md-4">
-                    <div class="card p-3 text-center text-bg-light">
-                        <h5><?php echo number_format($committeeCollectedFess); ?></h5>
-                        <p>Committee Collected Amount</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card p-3 text-center text-bg-info">
-                        <h5><?php echo number_format($maintenanceResult); ?></h5>
-                        <p>Maintenance</p>
-                    </div>
-                </div>
-                   <div class="col-md-4">
-                    <div class="card p-3 text-center text-bg-secondary">
-                        <h5><?php echo number_format($availableBalance); ?></h5>
-                        <p>Available Balance</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <h4>Collected Fees Percentage Per Teacher</h4>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Teacher Name</th>
-                                <th>Collected Fees</th>
-                                <th>Total Fees</th>
-                                <th>Percentage</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($teachers as $row): ?>
-                                <tr>
-                                    <td><?php echo $row['name']; ?></td>
-                                    <td>₹ <?php echo number_format($row['collected_fees']); ?></td>
-                                    <td>₹ <?php echo number_format($row['total_fees']); ?></td>
-                                    <td><?php echo ($row['total_fees'] > 0) ? round(($row['collected_fees'] / $row['total_fees']) * 100, 2) : 0; ?>%</td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-6">
-                    <canvas id="feesChart"></canvas>
-                         <script>
-                        var ctx = document.getElementById('feesChart').getContext('2d');
-                        var chart = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: <?php echo json_encode(array_column($teachers, 'name')); ?>,
-                                datasets: [{
-                                    label: 'Collected Fees %',
-                                    data: <?php echo json_encode(array_map(fn($t) => ($t['total_fees'] > 0) ? round(($t['collected_fees'] / $t['total_fees']) * 100, 2) : 0, $teachers)); ?>,
-                                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
-                                }]
-                            }
-                        });
-                    </script>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Bootstrap JS with integrity check -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <?php include 'includes/notification_styles.php'; ?>
+    <?php include 'includes/notification_scripts.php'; ?>
+    <script>
+        $(document).ready(function() {
+            $('#menu-toggle').click(function(e) {
+                e.preventDefault();
+                $('#wrapper').toggleClass('toggled');
+            });
+            
+            // Create pie chart for fees collection
+            const ctx = document.getElementById('feesChart').getContext('2d');
+            const feesChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Collected', 'Pending'],
+                    datasets: [{
+                        data: [<?php echo $total_collected; ?>, <?php echo $total_pending; ?>],
+                        backgroundColor: [
+                            'rgba(46, 204, 113, 0.8)',
+                            'rgba(231, 76, 60, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(46, 204, 113, 1)',
+                            'rgba(231, 76, 60, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                boxWidth: 15,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== undefined) {
+                                        label += new Intl.NumberFormat('en-IN', { 
+                                            style: 'currency', 
+                                            currency: 'INR',
+                                            maximumFractionDigits: 0
+                                        }).format(context.parsed);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

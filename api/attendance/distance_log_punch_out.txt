@@ -1,0 +1,67 @@
+{
+    "log_id": 7,
+    "location_id": 1,
+    "latitude": 37.4220936,
+    "longitude": -122.083922,
+    "notes": ""
+}{
+    "log_id": 0,
+    "location_id": 0,
+    "latitude": 0,
+    "longitude": 0,
+    "notes": ""
+}{
+    "log_id": 0,
+    "location_id": 0,
+    "latitude": 0,
+    "longitude": 0,
+    "notes": ""
+}{
+    "log_id": 0,
+    "location_id": 0,
+    "latitude": 0,
+    "longitude": 0,
+    "notes": ""
+}{
+    "log_id": 0,
+    "location_id": 0,
+    "latitude": 0,
+    "longitude": 0,
+    "notes": ""
+}{
+    "log_id": 0,
+    "location_id": 0,
+    "latitude": 0,
+    "longitude": 0,
+    "notes": ""
+}{
+    "log_id": 7,
+    "location_id": 1,
+    "latitude": 37.4220936,
+    "longitude": -122.083922,
+    "notes": 0
+}{
+    "log_id": 7,
+    "location_id": 1,
+    "latitude": 37.4220936,
+    "longitude": -122.083922,
+    "notes": 0
+}{
+    "log_id": 7,
+    "location_id": 1,
+    "latitude": 37.4220936,
+    "longitude": -122.083922,
+    "notes": 0
+}{
+    "log_id": 8,
+    "location_id": 1,
+    "latitude": 37.4220936,
+    "longitude": -122.083922,
+    "notes": "testing"
+}{
+    "log_id": 9,
+    "location_id": 1,
+    "latitude": 18.7110457,
+    "longitude": 76.0680942,
+    "notes": "test"
+}

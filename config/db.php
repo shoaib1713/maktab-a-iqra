@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root"; // Change as per your database credentials
 $password = "";
-$database = "maktab-a-ekra"; // Change to your DB name
+$database = "maktab_a_ekra_new"; // Change to your DB name
 
 $conn = new mysqli($servername, $username, $password, $database);
 

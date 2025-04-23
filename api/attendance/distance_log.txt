@@ -1,0 +1,7 @@
+{
+    "location_id": 1,
+    "latitude": 37.4220936,
+    "longitude": -122.083922,
+    "user_id": 3,
+    "user_type": "teacher"
+}
