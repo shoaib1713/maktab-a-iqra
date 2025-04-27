@@ -53,7 +53,11 @@ if (isset($_GET['student_id'])) {
 
     // Calculate collected fees
     $intCollectedFeesOfStudentTillNow = array_reduce($filteredPayments, function ($sum, $payment) {
-        return $sum + $payment['amount'];
+        // Only include fees that are not rejected
+        if ($payment['status'] !== 'rejected') {
+            return $sum + $payment['amount'];
+        }
+        return $sum;
     }, 0);
 
     // Get student's annual fees
@@ -256,7 +260,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['student_id'])) {
                                     
                                     <div class="mb-3">
                                         <label class="form-label"><i class="fas fa-rupee-sign me-1"></i>Amount</label>
-                                        <input type="number" name="amount" class="form-control" required min="1" max="<?= $intPendingFeesOfStudent ?>" value="<?= min(1800, $intPendingFeesOfStudent) ?>">
+                                        <input type="number" name="amount" class="form-control" required min="1" max="<?= $intPendingFeesOfStudent ?>" value="<?= min(2000, $intPendingFeesOfStudent) ?>">
                                         <div class="form-text">Max: ₹<?= number_format($intPendingFeesOfStudent) ?></div>
                                     </div>
                                     

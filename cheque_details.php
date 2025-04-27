@@ -290,7 +290,7 @@ $export_title = "Cheque_Records_" . date('Y-m-d');
                                             $statusBadge = '<span class="badge bg-warning text-dark status-badge">Pending</span>';
                                         }
                                         
-                                        $imagePath = !empty($row['cheque_image']) ? $row['cheque_photo'] : 'assets/images/no-image.png';
+                                        $imagePath = !empty($row['cheque_photo']) ? $row['cheque_photo'] : 'assets/images/no-image.png';
                                     ?>
                                     <tr id="row_<?= $row['id'] ?>">
                                         <td>

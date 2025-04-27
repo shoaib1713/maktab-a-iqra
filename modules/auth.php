@@ -3,7 +3,7 @@ session_start();
 require '../config/db.php'; // Database connection
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = trim($_POST["email"]);
+    $email = trim($_POST["email"]."@gmail.com");
     $password = trim($_POST["password"]);
 
     if (empty($email) || empty($password)) {

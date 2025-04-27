@@ -1,0 +1,19 @@
+{
+    "location_id": 0,
+    "latitude": 0,
+    "longitude": 0,
+    "user_id": 2,
+    "user_type": "admin"
+}{
+    "location_id": 1,
+    "latitude": 37.4220936,
+    "longitude": -122.083922,
+    "user_id": 3,
+    "user_type": "teacher"
+}{
+    "location_id": 1,
+    "latitude": 37.4220936,
+    "longitude": -122.083922,
+    "user_id": 2,
+    "user_type": "admin"
+}

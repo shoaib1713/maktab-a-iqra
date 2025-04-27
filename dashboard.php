@@ -22,11 +22,31 @@ $startMonth = ACEDEMIC_START_MONTH;
 $endMonth = ACEDEMIC_END_MONTH;
 
 // Get total yearly fees
-$sql_yearly = "SELECT SUM(s.annual_fees) AS total_yearly FROM students s LEFT JOIN student_status_history sst on sst.student_id = s.id WHERE sst.status in ('active','transferred') and (
-    (sst.year = $startYear AND sst.month >= $startMonth)
-    OR 
-    (sst.year = $endYear AND sst.month <= $endMonth)
-) and sst.current_active_record = 0";
+if (isset($_POST['academic_year']) && $_POST['academic_year'] !== '') {
+    // Use the new query when filter is applied
+    $sql_yearly = "SELECT SUM(salana_fees)
+                   FROM student_status_history sst
+                   INNER JOIN (
+                       SELECT student_id, MAX(id) as max_id
+                       FROM student_status_history
+                       WHERE (Year = $startYear AND month >= $startMonth) OR (Year = $endYear AND month <= $endMonth)
+                       GROUP BY student_id
+                   ) latest ON sst.id = latest.max_id
+                   WHERE sst.status in ('active','transferred')";
+} else {
+    // Use existing query when no filter is applied
+    $sql_yearly = "SELECT SUM(s.annual_fees) AS total_yearly 
+                   FROM students s 
+                   LEFT JOIN student_status_history sst on sst.student_id = s.id 
+                   WHERE sst.status in ('active','transferred') 
+                   AND (
+                       (sst.year = $startYear AND sst.month >= $startMonth)
+                       OR 
+                       (sst.year = $endYear AND sst.month <= $endMonth)
+                   ) 
+                   AND sst.current_active_record = 0";
+}
+
 $stmt = $conn->prepare($sql_yearly);
 $stmt->execute();
 $stmt->bind_result($total_yearly);
@@ -180,7 +200,7 @@ $availableBalance = ($total_collected + $committeeCollectedFess) - $maintenanceR
                     <div class="col-md-3 col-sm-6">
                         <div class="card p-3 text-center h-100 shadow-sm">
                             <div class="card-body">
-                                <h5 class="fw-bold text-dark">₹ <?php echo number_format($total_yearly) ?></h5>
+                                <h5 class="fw-bold text-dark">₹ <?php echo number_format($total_yearly ?? 0) ?></h5>
                                 <p class="text-muted mb-0">Total Fees</p>
                             </div>
                         </div>
@@ -188,7 +208,7 @@ $availableBalance = ($total_collected + $committeeCollectedFess) - $maintenanceR
                     <div class="col-md-3 col-sm-6">
                         <div class="card p-3 text-center h-100 shadow-sm bg-success bg-opacity-75 text-white">
                             <div class="card-body">
-                                <h5 class="fw-bold">₹ <?php echo number_format($total_collected); ?></h5>
+                                <h5 class="fw-bold">₹ <?php echo number_format($total_collected ?? 0); ?></h5>
                                 <p class="mb-0">Collected</p>
                             </div>
                         </div>
@@ -196,7 +216,7 @@ $availableBalance = ($total_collected + $committeeCollectedFess) - $maintenanceR
                     <div class="col-md-3 col-sm-6">
                         <div class="card p-3 text-center h-100 shadow-sm bg-danger bg-opacity-75 text-white cursor-pointer" id="pendingBox">
                             <div class="card-body">
-                                <h5 class="fw-bold">₹ <?php echo number_format($total_pending); ?></h5>
+                                <h5 class="fw-bold">₹ <?php echo number_format($total_pending ?? 0); ?></h5>
                                 <p class="mb-0">Pending</p>
                             </div>
                         </div>
@@ -215,7 +235,7 @@ $availableBalance = ($total_collected + $committeeCollectedFess) - $maintenanceR
                     <div class="col-md-4">
                         <div class="card p-3 text-center h-100 shadow-sm bg-light">
                             <div class="card-body">
-                                <h5 class="fw-bold">₹ <?php echo number_format($committeeCollectedFess); ?></h5>
+                                <h5 class="fw-bold">₹ <?php echo number_format($committeeCollectedFess ?? 0); ?></h5>
                                 <p class="text-muted mb-0">Committee Collection</p>
                             </div>
                         </div>
@@ -223,7 +243,7 @@ $availableBalance = ($total_collected + $committeeCollectedFess) - $maintenanceR
                     <div class="col-md-4">
                         <div class="card p-3 text-center h-100 shadow-sm bg-info bg-opacity-75 text-white">
                             <div class="card-body">
-                                <h5 class="fw-bold">₹ <?php echo number_format($maintenanceResult); ?></h5>
+                                <h5 class="fw-bold">₹ <?php echo number_format($maintenanceResult  ?? 0); ?></h5>
                                 <p class="mb-0">Maintenance</p>
                             </div>
                         </div>
@@ -289,22 +309,6 @@ $availableBalance = ($total_collected + $committeeCollectedFess) - $maintenanceR
                     </div>
                     
                     <div class="col-lg-6">
-                        <div class="card shadow-sm h-100">
-                            <div class="card-header bg-white">
-                                <h5 class="mb-0">Collection Statistics</h5>
-                            </div>
-                            <div class="card-body d-flex align-items-center justify-content-center">
-                                <div style="position: relative; height:250px; width:100%">
-                                    <canvas id="feesChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Announcements Section -->
-                <div class="row mb-4">
-                    <div class="col-12">
                         <div class="card shadow-sm">
                             <div class="card-header bg-white py-3">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -356,62 +360,6 @@ $availableBalance = ($total_collected + $committeeCollectedFess) - $maintenanceR
             $('#menu-toggle').click(function(e) {
                 e.preventDefault();
                 $('#wrapper').toggleClass('toggled');
-            });
-            
-            // Create pie chart for fees collection
-            const ctx = document.getElementById('feesChart').getContext('2d');
-            const feesChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Collected', 'Pending'],
-                    datasets: [{
-                        data: [<?php echo $total_collected; ?>, <?php echo $total_pending; ?>],
-                        backgroundColor: [
-                            'rgba(46, 204, 113, 0.8)',
-                            'rgba(231, 76, 60, 0.8)'
-                        ],
-                        borderColor: [
-                            'rgba(46, 204, 113, 1)',
-                            'rgba(231, 76, 60, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '60%',
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                boxWidth: 15,
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== undefined) {
-                                        label += new Intl.NumberFormat('en-IN', { 
-                                            style: 'currency', 
-                                            currency: 'INR',
-                                            maximumFractionDigits: 0
-                                        }).format(context.parsed);
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
             });
         });
     </script>

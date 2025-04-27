@@ -155,10 +155,10 @@
                         
                         <form id="loginForm" action="modules/auth.php" method="POST">
                             <div class="mb-4">
-                                <label class="form-label">Email</label>
+                                <label class="form-label">Username/Mobile</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                    <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                                    <input type="text" name="email" class="form-control" placeholder="Enter your Username/Mobile" required>
                                 </div>
                             </div>
                             

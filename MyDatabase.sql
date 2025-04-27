@@ -81,22 +81,6 @@ CREATE TABLE `attendance_logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `attendance_logs`
---
-
-INSERT INTO `attendance_logs` (`id`, `user_id`, `user_type`, `punch_in_time`, `punch_out_time`, `punch_in_location_id`, `punch_out_location_id`, `punch_in_latitude`, `punch_in_longitude`, `punch_out_latitude`, `punch_out_longitude`, `punch_in_ip`, `punch_out_ip`, `total_hours`, `status`, `shift_start`, `shift_end`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 2, 'admin', '2025-04-06 00:09:01', '2025-04-06 00:11:38', 1, 1, '18.00000000', '76.07418880', '18.72363520', '76.07418880', '::1', '::1', '0.04', 'weekend', NULL, NULL, '', '2025-04-05 22:09:01', '2025-04-05 22:11:38'),
-(2, 2, 'admin', '2025-04-06 00:33:01', '2025-04-06 07:39:31', 1, 1, '18.00000000', '76.07418880', '18.72363520', '76.07418880', '::1', '::1', '7.11', 'weekend', '07:15:00', '08:15:00', '', '2025-04-05 22:33:01', '2025-04-06 05:39:31'),
-(3, 1, 'teacher', '2025-04-06 09:27:55', '2025-04-06 09:28:28', 1, 1, '18.00000000', '76.07418880', '18.72363520', '76.07418880', '::1', '::1', '0.01', 'weekend', '07:15:00', '08:15:00', '', '2025-04-06 07:27:55', '2025-04-06 07:28:28'),
-(4, 3, 'teacher', '2025-04-06 20:38:46', NULL, 1, NULL, '18.00000000', '76.07418880', NULL, NULL, '::1', NULL, NULL, 'weekend', '19:15:00', '20:15:00', NULL, '2025-04-06 18:38:46', '2025-04-06 18:38:46'),
-(5, 3, 'teacher', '2025-04-07 00:22:41', '2025-04-07 01:11:32', 1, 1, '18.00000000', '76.07418880', '18.72363520', '76.07418880', '::1', '::1', '0.81', 'early_exit', '07:15:00', '08:15:00', '', '2025-04-06 18:52:41', '2025-04-06 19:41:32'),
-(6, 1, 'teacher', '2025-04-07 00:27:37', '2025-04-07 01:08:44', 1, 1, '18.00000000', '76.07418880', '18.72363520', '76.07418880', '::1', '::1', '0.69', 'early_exit', '07:15:00', '08:15:00', '', '2025-04-06 18:57:37', '2025-04-06 19:38:44'),
-(7, 3, 'teacher', '2025-04-08 16:34:13', NULL, 1, NULL, '18.00000000', '76.07418880', NULL, NULL, '::1', NULL, NULL, 'present', '17:15:00', '18:15:00', NULL, '2025-04-08 11:04:13', '2025-04-08 11:04:13'),
-(8, 2, 'admin', '2025-04-15 18:10:03', NULL, 1, NULL, '18.00000000', '76.07418880', NULL, NULL, '::1', NULL, NULL, 'late', '17:15:00', '18:15:00', NULL, '2025-04-15 12:40:03', '2025-04-15 12:40:03');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `attendance_settings`
 --
 
@@ -147,22 +131,6 @@ CREATE TABLE `attendance_summary` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `attendance_summary`
---
-
-INSERT INTO `attendance_summary` (`id`, `user_id`, `user_type`, `summary_date`, `month`, `year`, `status`, `work_hours`, `is_late`, `is_early_exit`, `leave_type_id`, `created_at`, `updated_at`) VALUES
-(1, 2, 'admin', '2025-04-07', 4, 2025, 'leave', '0.00', 0, 0, 3, '2025-04-05 21:47:57', '2025-04-05 21:47:57'),
-(2, 2, 'admin', '2025-04-06', 4, 2025, 'weekend', '7.15', 0, 0, NULL, '2025-04-05 22:09:01', '2025-04-06 05:39:31'),
-(5, 1, 'teacher', '2025-04-06', 4, 2025, NULL, '2.00', 0, 0, NULL, '2025-04-06 07:27:55', '2025-04-06 07:29:19'),
-(6, 3, 'teacher', '2025-04-06', 4, 2025, '', '0.00', 0, 0, NULL, '2025-04-06 18:38:46', '2025-04-06 18:38:46'),
-(7, 3, 'teacher', '2025-04-07', 4, 2025, 'early_exit', '0.81', 0, 1, 1, '2025-04-06 18:52:41', '2025-04-06 19:41:32'),
-(8, 1, 'teacher', '2025-04-07', 4, 2025, 'early_exit', '0.69', 0, 1, NULL, '2025-04-06 18:57:37', '2025-04-06 19:38:44'),
-(9, 3, 'teacher', '2025-04-08', 4, 2025, '', '0.00', 0, 0, NULL, '2025-04-08 11:04:13', '2025-04-08 11:04:13'),
-(10, 2, 'admin', '2025-04-15', 4, 2025, 'leave', '0.00', 0, 0, 1, '2025-04-15 12:21:23', '2025-04-15 12:21:23'),
-(11, 2, 'admin', '2025-04-16', 4, 2025, 'leave', '0.00', 0, 0, 1, '2025-04-15 12:21:23', '2025-04-15 12:21:23');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `cheque_details`
@@ -187,16 +155,6 @@ CREATE TABLE `cheque_details` (
   `bank_name` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `cheque_details`
---
-
-INSERT INTO `cheque_details` (`id`, `cheque_given_date`, `cheque_year`, `cheque_month`, `cheque_number`, `cheque_amount`, `cheque_photo`, `cheque_handover_teacher`, `is_deleted`, `created_by`, `created_on`, `deleted_by`, `deleted_on`, `is_cleared`, `is_bounced`, `bank_name`) VALUES
-(1, '2025-02-14', 2025, 2, 'Test1234', '50000.00', 'assets/images/1739551394_IMG_0759.jpeg', 7, 0, 2, '2025-02-14 19:43:14', NULL, NULL, 1, 0, NULL),
-(2, '2025-02-13', 2025, 1, ' Heck2', '10000.00', 'assets/images/1739553929_image.jpg', 3, 0, 2, '2025-02-14 20:25:29', NULL, NULL, 0, 1, NULL),
-(3, '2025-02-20', 2025, 2, 'Test321', '46900.00', 'assets/images/1740684368_550c084c-8e2e-4b70-915b-5f30092897c9.jpeg', 9, 0, 2, '2025-02-27 22:26:08', NULL, NULL, 1, 0, NULL);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `daily_salary_calculations`
@@ -216,21 +174,6 @@ CREATE TABLE `daily_salary_calculations` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `daily_salary_calculations`
---
-
-INSERT INTO `daily_salary_calculations` (`id`, `teacher_id`, `calculation_date`, `base_amount`, `deduction_amount`, `final_amount`, `working_hours`, `required_hours`, `minutes_short`, `notes`, `created_at`) VALUES
-(1, 3, '2025-04-07', '324.00', '291.60', '32.40', '0.00', '240.00', 0, 'No attendance record found', '2025-04-06 19:53:36'),
-(2, 1, '2025-04-07', '243.00', '218.70', '24.30', '0.00', '180.00', 0, 'No attendance record found', '2025-04-06 19:53:36'),
-(3, 3, '2025-04-06', '324.00', '291.60', '32.40', '0.00', '240.00', 0, 'No attendance record found', '2025-04-06 20:19:31'),
-(4, 1, '2025-04-06', '243.00', '218.70', '24.30', '0.00', '180.00', 0, 'No attendance record found', '2025-04-06 20:19:31'),
-(5, 3, '2025-04-05', '324.00', '291.60', '32.40', '0.00', '240.00', 0, 'No attendance record found', '2025-04-06 20:19:53'),
-(6, 1, '2025-04-05', '243.00', '218.70', '24.30', '0.00', '180.00', 0, 'No attendance record found', '2025-04-06 20:19:53'),
-(7, 3, '2025-04-08', '324.00', '291.60', '32.40', '0.00', '240.00', 0, 'No attendance record found', '2025-04-08 10:24:58'),
-(8, 1, '2025-04-08', '243.00', '218.70', '24.30', '0.00', '180.00', 0, 'No attendance record found', '2025-04-08 10:24:58');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `fees`
@@ -252,24 +195,6 @@ CREATE TABLE `fees` (
   `reason` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `fees`
---
-
-INSERT INTO `fees` (`id`, `student_id`, `amount`, `month`, `created_at`, `created_by`, `Year`, `approved_by`, `approved_on`, `status`, `rejected_by`, `rejected_on`, `reason`) VALUES
-(1, 1017, '14.00', 2, '2025-02-14 16:33:04', 2, '2025', 2, '2025-04-06 18:59:14.000000', 'paid', NULL, NULL, NULL),
-(2, 1017, '300.00', 2, '2025-02-14 16:33:42', 2, '2025', 2, '2025-04-06 18:59:08.000000', 'paid', NULL, NULL, NULL),
-(3, 1017, '200.00', 2, '2025-02-14 17:23:16', 2, '2025', 2, '2025-04-06 18:59:39.000000', 'paid', NULL, NULL, NULL),
-(4, 1017, '100.00', 12, '2025-02-15 18:35:05', 2, '2024', 2, '2025-04-06 19:03:02.000000', 'paid', NULL, NULL, NULL),
-(5, 1017, '300.00', 3, '2025-02-15 19:30:41', 2, '2025', 2, '2025-04-06 18:59:36.000000', 'paid', NULL, NULL, NULL),
-(6, 1017, '200.00', 1, '2025-02-23 07:00:48', 2, '2025', 2, '2025-04-06 18:56:41.000000', 'paid', NULL, NULL, NULL),
-(7, 1017, '100.00', 1, '2025-03-16 10:18:26', 2, '2025', 2, '2025-04-06 18:58:45.000000', 'paid', NULL, NULL, NULL),
-(14, 1026, '1100.00', 4, '2025-04-12 14:41:50', 2, '2025', 2, '2025-04-12 14:44:47.000000', 'paid', NULL, NULL, ''),
-(15, 1026, '100.00', 4, '2025-04-12 18:46:04', 2, '2025', 2, '2025-04-15 12:12:43.000000', 'paid', NULL, NULL, ''),
-(16, 1026, '100.00', 4, '2025-04-15 12:11:19', 2, '2025', 2, '2025-04-15 12:12:14.000000', 'paid', NULL, NULL, 'Test'),
-(17, 1022, '500.00', 4, '2025-04-15 12:13:19', 2, '2025', 2, '2025-04-15 12:13:48.000000', 'paid', NULL, NULL, 'Testing');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `holidays`
@@ -307,17 +232,6 @@ CREATE TABLE `leave_requests` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `leave_requests`
---
-
-INSERT INTO `leave_requests` (`id`, `user_id`, `user_type`, `leave_type_id`, `start_date`, `end_date`, `reason`, `attachment`, `status`, `approved_by`, `rejection_reason`, `created_at`, `updated_at`) VALUES
-(1, 2, 'admin', 3, '2025-04-06', '2025-04-07', 'Test', '', 'approved', 2, NULL, '2025-04-05 21:47:57', '2025-04-05 21:59:59'),
-(2, 1, 'teacher', 2, '2025-04-07', '2025-04-08', 'Testing', '', 'approved', 2, NULL, '2025-04-05 22:35:19', '2025-04-05 22:36:28'),
-(3, 3, 'teacher', 1, '2025-04-07', '2025-04-07', 'ddd', '', 'rejected', 2, 'Not allowed', '2025-04-06 18:55:12', '2025-04-06 18:55:48'),
-(4, 2, 'admin', 1, '2025-04-15', '2025-04-16', 'fsdf', '', 'pending', NULL, NULL, '2025-04-15 12:21:23', '2025-04-15 12:21:23');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `leave_types`
@@ -365,15 +279,6 @@ CREATE TABLE `maintenance` (
   `deleted_on` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `maintenance`
---
-
-INSERT INTO `maintenance` (`id`, `created_by`, `month`, `year`, `category`, `amount`, `comment`, `created_on`, `is_deleted`, `deleted_by`, `deleted_on`) VALUES
-(1, 2, 2, 2025, 'Maktab Rest', '1800.00', '', '2025-02-14 19:40:54', 0, NULL, NULL),
-(2, 2, 1, 2020, 'Miscellaneous', '3000.00', 'Test', '2025-02-14 20:26:47', 1, 2, '2025-04-05 12:38:37');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `meeting_details`
@@ -398,15 +303,7 @@ CREATE TABLE `meeting_details` (
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `meeting_details`
---
 
-INSERT INTO `meeting_details` (`id`, `meeting_date`, `student_responsibility`, `namaz_responsibility`, `daily_visit`, `fees_collection`, `maktab_lock`, `cleanliness_ethics`, `food_responsibility`, `created_at`, `updated_at`, `visit_fajar`, `visit_asar`, `visit_magrib`, `created_by`, `updated_by`) VALUES
-(10, '2025-02-16', 1, 3, NULL, NULL, 7, 8, 5, '2025-02-15 18:40:19', '2025-02-15 18:40:19', 6, 4, 12, NULL, NULL),
-(11, '2025-02-28', 1, 3, NULL, NULL, 8, 9, 4, '2025-02-27 19:53:07', '2025-02-27 19:53:07', 4, 5, 11, NULL, NULL);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `meeting_fees_collection`
@@ -418,21 +315,6 @@ CREATE TABLE `meeting_fees_collection` (
   `admin_id` int(11) NOT NULL,
   `amount` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `meeting_fees_collection`
---
-
-INSERT INTO `meeting_fees_collection` (`id`, `meeting_id`, `admin_id`, `amount`) VALUES
-(1, 10, 2, '500.00'),
-(2, 10, 4, '300.00'),
-(3, 10, 5, '300.00'),
-(4, 10, 6, '300.00'),
-(5, 10, 11, '300.00'),
-(6, 11, 5, '300.00'),
-(7, 11, 11, '300.00');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `notifications`
@@ -452,26 +334,6 @@ CREATE TABLE `notifications` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `notifications`
---
-
-INSERT INTO `notifications` (`id`, `user_id`, `type`, `reference_id`, `title`, `message`, `content`, `is_read`, `created_at`, `updated_at`) VALUES
-(1, 2, 'leave', NULL, 'Leave Approved', 'Your leave request has been approved', 'Your leave request has been approved', 1, '0000-00-00 00:00:00', '2025-04-06 03:30:15'),
-(2, 1, 'leave', NULL, 'Leave Approved', 'Your leave request has been approved', 'Your leave request has been approved', 1, '0000-00-00 00:00:00', '2025-04-06 04:07:05'),
-(12, 1, 'salary_processed', NULL, 'Salary Processed', 'Your salary for the period April has been processed. Total hours: 0.00, Final salary: ₹0.00', 'Your salary for the period April has been processed. Total hours: 0.00, Final salary: ₹0.00', 1, '2025-04-06 12:32:07', '2025-04-06 12:32:39'),
-(13, 1, 'salary_processed', NULL, 'Salary Processed', 'Your salary for the period April has been processed. Total hours: 2.00, Final salary: ₹140.00', 'Your salary for the period April has been processed. Total hours: 2.00, Final salary: ₹140.00', 1, '2025-04-06 12:59:41', '2025-04-07 00:28:04'),
-(14, 1, 'salary_processed', NULL, 'Salary Processed', 'Your salary for the period April has been processed. Total hours: 2.00, Final salary: ₹140.00', 'Your salary for the period April has been processed. Total hours: 2.00, Final salary: ₹140.00', 1, '2025-04-06 13:34:35', '2025-04-07 00:28:00'),
-(15, 1, 'salary_processed', NULL, 'Salary Processed', 'Your salary for the period April has been processed. Total hours: 2.00, Final salary: ₹190.00', 'Your salary for the period April has been processed. Total hours: 2.00, Final salary: ₹190.00', 1, '2025-04-06 13:37:46', '2025-04-07 00:27:57'),
-(16, 1, 'salary_processed', NULL, 'Salary Processed', 'Your salary for the period April has been processed. Total hours: 2.00, Final salary: ₹190.00', 'Your salary for the period April has been processed. Total hours: 2.00, Final salary: ₹190.00', 1, '2025-04-06 13:37:54', '2025-04-07 00:27:47'),
-(17, 3, 'leave', NULL, 'Leave Rejected', 'Your leave request has been rejected: Not allowed', NULL, 1, '0000-00-00 00:00:00', '2025-04-07 00:26:05'),
-(18, 1, 'salary_processed', NULL, 'Salary Processed', 'Your salary for the period April has been processed. Total hours: 2.69, Final salary: ₹217.89', 'Your salary for the period April has been processed. Total hours: 2.69, Final salary: ₹217.89', 0, '2025-04-07 01:09:52', NULL),
-(19, 3, 'salary_processed', NULL, 'Salary Processed', 'Your salary for the period April has been processed. Total hours: 0.00, Final salary: ₹0.00', 'Your salary for the period April has been processed. Total hours: 0.00, Final salary: ₹0.00', 1, '2025-04-07 01:09:53', '2025-04-07 01:36:42'),
-(20, 1, 'salary_processed', NULL, 'Salary Processed', 'Your salary for the period April has been processed. Total hours: 2.69, Final salary: ₹217.89', 'Your salary for the period April has been processed. Total hours: 2.69, Final salary: ₹217.89', 0, '2025-04-07 01:11:55', NULL),
-(21, 3, 'salary_processed', NULL, 'Salary Processed', 'Your salary for the period April has been processed. Total hours: 0.81, Final salary: ₹65.61', 'Your salary for the period April has been processed. Total hours: 0.81, Final salary: ₹65.61', 1, '2025-04-07 01:11:55', '2025-04-07 01:36:37');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `office_locations`
 --
 
@@ -486,15 +348,6 @@ CREATE TABLE `office_locations` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `office_locations`
---
-
-INSERT INTO `office_locations` (`id`, `location_name`, `address`, `latitude`, `longitude`, `radius_meters`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'MAKTAB', 'Roza Mohalla Tq. Kaij Dist Beed.', '18.72363520', '76.07418880', 50, 1, '2025-04-05 22:05:35', '2025-04-06 18:52:32');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `salary_calculation_logs`
@@ -552,15 +405,6 @@ CREATE TABLE `salary_notifications` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `salary_notifications`
---
-
-INSERT INTO `salary_notifications` (`id`, `user_id`, `salary_id`, `notification_title`, `notification_text`, `is_read`, `created_at`) VALUES
-(9, 1, 18, 'Salary Processed', 'Your salary for the period April has been processed. Total hours: 2.69, Final salary: ₹217.89', 0, '2025-04-06 19:41:55'),
-(10, 3, 19, 'Salary Processed', 'Your salary for the period April has been processed. Total hours: 0.81, Final salary: ₹65.61', 1, '2025-04-06 19:41:55');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `salary_periods`
@@ -576,16 +420,6 @@ CREATE TABLE `salary_periods` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `salary_periods`
---
-
-INSERT INTO `salary_periods` (`id`, `period_name`, `start_date`, `end_date`, `is_processed`, `is_locked`, `created_at`, `updated_at`) VALUES
-(2, 'April', '2025-04-01', '2025-04-30', 1, 1, '2025-04-06 05:43:15', '2025-04-06 20:05:55'),
-(3, 'Salary Period - May 2025', '2025-05-01', '2025-05-31', 0, 0, '2025-04-06 08:09:41', '2025-04-06 08:09:41');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `salary_settings`
@@ -647,25 +481,6 @@ CREATE TABLE `students` (
   `is_deleted` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `students`
---
-
-INSERT INTO `students` (`id`, `name`, `photo`, `class`, `annual_fees`, `phone`, `assigned_teacher`, `is_deleted`) VALUES
-(1017, 'Teststudent', 'assets/images/1744407026_Window Universe [1920x1080].jpg', '1', 2000, '2323123453', 1, 0),
-(1018, 'Teststudent 2', 'assets/images/1744405428_MyStartWallpapers_3.jpg', '3', 2000, '4521452154', 1, 1),
-(1019, 'student3', 'assets/images/1744407014_luca-micheli-ruWkmt3nU58-unsplash.jpg', '2', 2000, '2145214512', 1, 0),
-(1020, 'student4', 'assets/images/1744407048_pexels-pixabay-531880.jpg', '2', 2000, '2145214512', 1, 0),
-(1021, 'student5', 'assets/images/1744407068_Avengers.jpg', '2', 2000, '2145214512', 1, 0),
-(1022, 'Student 6', 'assets/images/1744407151_MyStartWallpapers_3.jpg', '4', 2000, '4521452145', 1, 0),
-(1023, 'Student 7', 'assets/images/1744407170_wp2781488-wallpaper-laptop-cute (1).png', '1', 2000, '4521452145', 1, 0),
-(1024, 'Student 7', 'assets/images/1744407193_luca-micheli-ruWkmt3nU58-unsplash.jpg', '2', 2000, '4521452145', 3, 0),
-(1025, 'Student9', 'assets/images/1744407234_SamplePhoto_1.jpg', '1', 2000, '4521452145', 1, 0),
-(1026, 'Student 10', 'assets/images/1744407270_SamplePhoto_2.jpg', '1', 2000, '3216547895', 1, 0),
-(1027, 'Student 11', 'assets/images/1744407311_SamplePhoto_3.jpg', '1', 2000, '4521452145', 1, 0),
-(1028, 'Student 12', 'assets/images/1744448838_SamplePhoto_8.jpg', '2', 2000, '5487458745', 1, 0);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `student_status_history`
@@ -686,34 +501,7 @@ CREATE TABLE `student_status_history` (
   `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `student_status_history`
---
 
-INSERT INTO `student_status_history` (`id`, `student_id`, `year`, `month`, `assigned_teacher`, `salana_fees`, `status`, `current_active_record`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 1017, 2025, 2, 3, '2000.00', 'active', 1, '2025-02-14 16:31:29', '2025-02-14 16:31:43', 2, 2),
-(2, 1017, 2025, 2, 3, '2000.00', 'inactive', 1, '2025-02-14 16:31:43', '2025-02-14 16:31:50', 2, 2),
-(3, 1017, 2025, 2, 3, '2000.00', 'active', 1, '2025-02-14 16:31:50', '2025-02-14 16:37:45', 2, 2),
-(4, 1017, 2025, 2, 1, '2000.00', 'active', 1, '2025-02-14 16:37:45', '2025-02-14 16:44:30', 2, 2),
-(5, 1017, 2025, 2, 1, '2000.00', 'inactive', 1, '2025-02-14 16:44:30', '2025-02-14 16:44:57', 2, 2),
-(6, 1017, 2025, 2, 1, '2000.00', 'active', 1, '2025-02-14 16:44:57', '2025-04-11 21:30:26', 2, 2),
-(7, 1018, 2025, 4, 3, '2000.00', 'active', 1, '2025-04-11 21:03:48', '2025-04-11 21:12:19', 2, 2),
-(8, 1018, 2025, 4, 1, '2000.00', 'active', 1, '2025-04-11 21:12:19', '2025-04-11 22:01:23', 2, 2),
-(9, 1019, 2025, 4, 1, '2000.00', 'active', 0, '2025-04-11 21:30:14', '2025-04-11 21:30:14', 2, NULL),
-(10, 1017, 2025, 4, 1, '2000.00', 'active', 0, '2025-04-11 21:30:26', '2025-04-11 21:30:26', 2, NULL),
-(11, 1020, 2025, 4, 1, '2000.00', 'active', 0, '2025-04-11 21:30:48', '2025-04-11 21:30:48', 2, NULL),
-(12, 1021, 2025, 4, 1, '2000.00', 'active', 0, '2025-04-11 21:31:08', '2025-04-11 21:31:08', 2, NULL),
-(13, 1022, 2025, 4, 1, '2000.00', 'active', 0, '2025-04-11 21:32:31', '2025-04-11 21:32:31', 2, NULL),
-(14, 1023, 2025, 4, 1, '2000.00', 'active', 0, '2025-04-11 21:32:50', '2025-04-11 21:32:50', 2, NULL),
-(15, 1024, 2025, 4, 1, '2000.00', 'active', 1, '2025-04-11 21:33:13', '2025-04-15 12:45:16', 2, 2),
-(16, 1025, 2025, 4, 1, '2000.00', 'active', 0, '2025-04-11 21:33:54', '2025-04-11 21:33:54', 2, NULL),
-(17, 1026, 2025, 4, 1, '2000.00', 'active', 0, '2025-04-11 21:34:30', '2025-04-11 21:34:30', 2, NULL),
-(18, 1027, 2025, 4, 1, '2000.00', 'active', 0, '2025-04-11 21:35:11', '2025-04-11 21:35:11', 2, NULL),
-(19, 1018, 2025, 4, 1, '2000.00', 'inactive', 0, '2025-04-11 22:01:23', '2025-04-11 22:01:23', 2, NULL),
-(20, 1028, 2025, 4, 1, '2000.00', 'active', 0, '2025-04-12 09:07:18', '2025-04-12 09:07:18', 2, NULL),
-(21, 1024, 2025, 4, 3, '2000.00', 'active', 0, '2025-04-15 12:45:16', '2025-04-15 12:45:16', 2, NULL);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `teacher_class_assignments`
@@ -730,15 +518,6 @@ CREATE TABLE `teacher_class_assignments` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `teacher_class_assignments`
---
-
-INSERT INTO `teacher_class_assignments` (`id`, `teacher_id`, `class_name`, `subject`, `class_hours`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 3, '1,2,3,4', 'test', '4.00', 1, '2025-04-06 19:34:55', '2025-04-06 19:35:59'),
-(2, 1, '1,2,3', 'Test-2', '3.00', 1, '2025-04-06 19:35:52', '2025-04-06 19:35:52');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `teacher_salary_calculations`
@@ -770,15 +549,7 @@ CREATE TABLE `teacher_salary_calculations` (
   `notes` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `teacher_salary_calculations`
---
 
-INSERT INTO `teacher_salary_calculations` (`id`, `teacher_id`, `user_id`, `period_id`, `base_salary`, `deductions`, `bonuses`, `total_working_hours`, `expected_working_hours`, `deduction_amount`, `bonus_amount`, `final_salary`, `status`, `payment_date`, `payment_method`, `reference_number`, `payment_notes`, `created_at`, `updated_at`, `hourly_rate`, `total_hours`, `expected_hours`, `notes`) VALUES
-(18, 1, 1, 2, '217.89', '0.00', '0.00', '2.69', '6.00', '0.00', '0.00', '217.89', 'processed', NULL, NULL, NULL, NULL, '2025-04-06 19:41:55', '2025-04-06 19:41:55', '81', '2.69', '6.00', 'Total worked hours: 2.69 out of expected 6.00 hours.\nIncomplete days: 2\n'),
-(19, 3, 3, 2, '65.61', '0.00', '0.00', '0.81', '6.00', '0.00', '0.00', '65.61', 'processed', NULL, NULL, NULL, NULL, '2025-04-06 19:41:55', '2025-04-06 19:41:55', '81', '0.81', '6.00', 'Total worked hours: 0.81 out of expected 6.00 hours.\nIncomplete days: 2\n');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `teacher_salary_rates`
@@ -797,14 +568,6 @@ CREATE TABLE `teacher_salary_rates` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `minimum_working_hours` decimal(5,2) DEFAULT 3.00 COMMENT 'Minimum working hours per day for the teacher'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `teacher_salary_rates`
---
-
-INSERT INTO `teacher_salary_rates` (`id`, `user_id`, `hourly_rate`, `effective_date`, `effective_from`, `effective_to`, `is_active`, `created_by`, `created_at`, `updated_at`, `minimum_working_hours`) VALUES
-(1, 1, '81.00', '2025-04-01', '2025-04-01', NULL, 1, 2, '2025-04-05 23:19:47', '2025-04-06 19:25:40', '3.00'),
-(2, 3, '81.00', NULL, '2025-04-01', NULL, 1, 2, '2025-04-06 19:26:18', '2025-04-06 19:26:18', '4.00');
 
 -- --------------------------------------------------------
 
@@ -835,18 +598,36 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `token`, `token_expiry`, `last_login`, `name`, `email`, `password`, `role`, `is_deleted`, `phone`, `is_active`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, '7215bca5f28c6cb7b4252ce16519ec736783ce01c5e130a03be6f0ec5979fcb6', '2025-04-13 11:06:33', NULL, 'Irfan Hafiz', '9561917112@gmail.com', '$2y$10$OJOF4wELjpkJmkrfHMDNoeI8S2Y.PU74mmQTYvPUFuN2Y5SVDK.4C', 'teacher', 0, '9561917112', 1, NULL, NULL, NULL, NULL),
-(2, '5d9dd34a3d51410bf5fcf637d6884e4d5d79e0556a55271578c117c31cf483f5', '2025-04-16 16:57:50', NULL, 'Shoaib Farooqui', '9595778797@gmail.com', '$2y$10$BCtAQclYS2dVc2sBg8w7w.WpFWaDDsWwgtTVdLNpbwHZSnDUq9ebO', 'admin', 0, '9595778797', 1, NULL, NULL, NULL, NULL),
-(3, '58b4c1afd28a88a96e2626d9b64f75c2be62dba7279a134e68ff0a370a1583d3', '2025-04-16 16:52:52', NULL, 'Hafiz Farook', 'farok@gmail.com', '$2y$10$b0qq5aNNzHHxjQRYDA/4vO9hjRpZag5e7SiWTcUMZvjro9o87vovK', 'teacher', 0, '9923242833', 1, NULL, NULL, NULL, NULL),
-(4, '572da090251a7f5eeaebe391bf913e634b4d1e383801d685f804b7951173b39f', '2025-04-13 09:50:10', NULL, 'Rizwan Khureshi', '9960555762@gmail.com', '$2y$10$ye0qPFDU9.8./gLYHBuMT.RTvDo6ZoyK6vJ/dd0oTsrzPNtoNv1vK', 'admin', 0, '9960555762', 1, NULL, NULL, NULL, NULL),
-(5, NULL, NULL, NULL, 'Zaheer Farooqui', '7218932313@gmail.com', '$2y$10$z9Fpf2zZoL3REwAljMXoFuFzlCVyVyNsPMgc0CDrxswAQKHtCddS2', 'admin', 0, '7218932313', 1, NULL, NULL, NULL, NULL),
-(6, NULL, NULL, NULL, 'Khadir Khureshi', '8421032525@gmail.com', '$2y$10$ig7hcg7JO3vcJ4UQ8XMObeXA3tNVJNBEKpFLWPknKVZr0jLSNbwmS', 'admin', 0, '8421032525', 1, NULL, NULL, NULL, NULL),
-(7, NULL, NULL, NULL, 'Moulana Arif', 'arif@gmail.com', '$2y$10$O7MoT.aY8kSnxbHvShQo3OCmu9UuT7XgAnvtEuY9b.tM2dpBRKuaS', 'teacher', 0, '9284404710', 1, NULL, NULL, NULL, NULL),
-(8, NULL, NULL, NULL, 'Moulana eliyas', '9527713539@gmai.com', '$2y$10$wo4FK/jcZ4Dcj143OG4d6ub8jwwPmR/MiEZ38d/bzLcV5nR3nzTLC', 'teacher', 0, '9527713539', 1, NULL, NULL, NULL, NULL),
-(9, NULL, NULL, NULL, 'Hafiz Ejaz', '7498062171@gmail.com', '$2y$10$j.7zU/kb9B9YXpV1PO6vd.DXawksO61EQ4fj7D62H337PqLLuep2W', 'teacher', 0, '7498062171', 1, NULL, NULL, NULL, NULL),
-(10, NULL, NULL, NULL, 'Test Login', 'testlogin@gmail.com', '$2y$10$W5KcB9Uj605kcjkpSdUQSe.jz3tXqhaR50iKW7dR5PAhEXUbNb2g6', 'admin', 1, NULL, 1, NULL, NULL, NULL, NULL),
-(11, NULL, NULL, NULL, 'Imad Farooqui', '9158668082@gmail.com', '$2y$10$Sm7vlUR3TeYnjP1ZEJIKTuVKumkmCzCg6OSt3SmzOlPjJQImRgCaG', 'admin', 0, '9158668082', 1, NULL, NULL, NULL, NULL),
-(12, NULL, NULL, NULL, 'Abed Farooqui', '9850041083@gmail.com', '$2y$10$WBQGq9c1T78ARj8LsreANux3A1OsfNWTHKsV2cWExAsiyXMXXvVmK', 'admin', 0, '9850041083', 1, NULL, NULL, NULL, NULL);
+(1, '5d9dd34a3d51410bf5fcf637d6884e4d5d79e0556a55271578c117c31cf483f5', '2025-04-16 16:57:50', NULL, 'Shoaib Farooqui', '9595778797@gmail.com', '$2y$10$BCtAQclYS2dVc2sBg8w7w.WpFWaDDsWwgtTVdLNpbwHZSnDUq9ebO', 'admin', 0, '9595778797', 1, NULL, NULL, NULL, NULL);
+
+TRUNCATE TABLE  `meeting_fees_collection`;
+TRUNCATE TABLE  `leave_types`;
+TRUNCATE TABLE  `leave_requests`;
+TRUNCATE TABLE  `attendance_settings`;
+TRUNCATE TABLE  `holidays`;
+TRUNCATE TABLE  `salary_settings`;
+TRUNCATE TABLE  `cheque_details`;
+TRUNCATE TABLE  `teacher_class_assignments`;
+TRUNCATE TABLE  `office_locations`;
+TRUNCATE TABLE  `meeting_details`;
+TRUNCATE TABLE  `salary_notifications`;
+TRUNCATE TABLE  `teacher_salary_rates`;
+TRUNCATE TABLE  `attendance`;
+TRUNCATE TABLE  `fees`;
+TRUNCATE TABLE  `salary_periods`;
+TRUNCATE TABLE  `announcements`;
+TRUNCATE TABLE  `teacher_salary_calculations`;
+TRUNCATE TABLE  `notifications`;
+TRUNCATE TABLE  `students`;
+TRUNCATE TABLE  `salary_calculation_logs`;
+TRUNCATE TABLE  `users`;
+TRUNCATE TABLE  `student_status_history`;
+TRUNCATE TABLE  `sms_log`;
+TRUNCATE TABLE  `maintenance`;
+TRUNCATE TABLE  `attendance_summary`;
+TRUNCATE TABLE  `salary_deduction_rules`;
+TRUNCATE TABLE  `daily_salary_calculations`;
+TRUNCATE TABLE  `attendance_logs`;
 
 --
 -- Indexes for dumped tables

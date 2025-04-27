@@ -13,6 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $class = $_POST['class'];
     $annual_fees = $_POST['annual_fees'];
     $phone = $_POST['phone'];
+    $student_address = $_POST['student_address'];
+    $class_time = $_POST['class_time'];
+    $remarks = $_POST['remarks'];
     $teacher_id = $_POST['assigned_teacher'];
 
     // File Upload Handling
@@ -39,10 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // Move uploaded file
     if (move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file)) {
         // Insert student data into database
-        $query = "INSERT INTO students (name, photo, class, annual_fees, phone, assigned_teacher) 
-                  VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO students (name, photo, class, class_time, annual_fees, phone, student_address, remarks, assigned_teacher) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("sssssi", $name, $target_file, $class, $annual_fees, $phone, $teacher_id);
+        $stmt->bind_param("ssssssssi", $name, $target_file, $class, $class_time, $annual_fees, $phone, $student_address, $remarks, $teacher_id);
         if ($stmt->execute()) {
             $student_id = $stmt->insert_id; // Get last inserted meeting ID
             updateStudentStatusHistory($conn,$user_id, $student_id,date('Y'),$teacher_id,$annual_fees,'active');
@@ -121,17 +124,38 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                 <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone number" required>
                             </div>
                             
+                            <div class="col-md-6">
+                                <label for="student_address" class="form-label">
+                                    <i class="fas fa-map-marker-alt me-1"></i> Student Address <span class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="student_address" name="student_address" rows="2" placeholder="Enter student's address" required></textarea>
+                            </div>
+                            
                             <div class="col-md-4">
                                 <label for="class" class="form-label">
-                                    <i class="fas fa-book me-1"></i> Class <span class="text-danger">*</span>
+                                    <i class="fas fa-graduation-cap me-1"></i> Class <span class="text-danger">*</span>
                                 </label>
                                 <select class="form-select" id="class" name="class" required>
                                     <option value="">Select Class</option>
-                                    <option value="1">Class 1</option>
-                                    <option value="2">Class 2</option>
-                                    <option value="3">Class 3</option>
-                                    <option value="4">Class 4</option>
-                                    <option value="5">Class 5</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <label for="class_time" class="form-label">
+                                    <i class="fas fa-clock me-1"></i> Class Time <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="class_time" name="class_time" required>
+                                    <option value="">Select Class Time</option>
+                                    <option value="Fajar 1st Class">Fajar 1st Class</option>
+                                    <option value="Fajar 2nd Class">Fajar 2nd Class</option>
+                                    <option value="Asar 1st Class">Asar 1st Class</option>
+                                    <option value="Magrib 1st Class">Magrib 1st Class</option>
                                 </select>
                             </div>
                             
@@ -151,7 +175,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                 <label for="annual_fees" class="form-label">
                                     <i class="fas fa-rupee-sign me-1"></i> Salana Fees <span class="text-danger">*</span>
                                 </label>
-                                <input type="number" class="form-control" id="annual_fees" name="annual_fees" value="2000" required>
+                                <input type="number" class="form-control" id="annual_fees" name="annual_fees" value="1800" required>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <label for="remarks" class="form-label">
+                                    <i class="fas fa-comment me-1"></i> Remarks
+                                </label>
+                                <textarea class="form-control" id="remarks" name="remarks" rows="3" placeholder="Enter any additional remarks"></textarea>
                             </div>
                             
                             <div class="col-md-12">

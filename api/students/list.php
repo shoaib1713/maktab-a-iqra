@@ -207,7 +207,7 @@ try {
         
         $paidAmount = (float)($feesResult['paid_amount'] ?? 0);
         $pendingFees = $annualFees - $paidAmount;
-
+//echo $paidAmount; exit;//$pendingFees; exit;
         $students[] = [
             'id' => (int)$row['id'],
             'name' => $row['name'],
@@ -216,6 +216,8 @@ try {
             'annual_fees' => $annualFees,
             'pending_fees' => $pendingFees > 0 ? $pendingFees : 0,
             'assigned_teacher' => $row['teacher_name'] ?? null,
+            'teacher_name' => $row['teacher_name'] ?? null,
+            'teacherName' => $row['teacher_name'] ?? null,
             'teacher_id' => $row['assigned_teacher'] ? (int)$row['assigned_teacher'] : null,
             'photo' => $row['photo'] ?? null,
             'isDeleted' => $row['is_deleted'] ? true : false,

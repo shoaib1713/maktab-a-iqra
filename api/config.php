@@ -15,9 +15,11 @@ require_once '../config.php';
 // Function to get authorization header
 function getAuthorizationHeader() {
     $headers = null;
+    
+    // Try to get from $_SERVER first
     if (isset($_SERVER['Authorization'])) {
         $headers = trim($_SERVER['Authorization']);
-    } else if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+    } elseif (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $headers = trim($_SERVER['HTTP_AUTHORIZATION']);
     } elseif (function_exists('apache_request_headers')) {
         $requestHeaders = apache_request_headers();
@@ -25,6 +27,15 @@ function getAuthorizationHeader() {
             $headers = trim($requestHeaders['Authorization']);
         }
     }
+    
+    // If still not found, try to get from getallheaders()
+    if (!$headers && function_exists('getallheaders')) {
+        $allHeaders = getallheaders();
+        if (isset($allHeaders['Authorization'])) {
+            $headers = trim($allHeaders['Authorization']);
+        }
+    }
+    
     return $headers;
 }
 
@@ -59,5 +70,9 @@ function sendResponse($data, $status = 200) {
 
 // Function to send error response
 function sendError($message, $status = 400) {
-    sendResponse(['error' => $message], $status);
+    sendResponse([
+        'success' => false,
+        'message' => $message,
+        'data' => null
+    ], $status);
 } 

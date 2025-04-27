@@ -16,7 +16,7 @@ if (!isset($data['username']) || !isset($data['password'])) {
     sendError('Username and password are required');
 }
 
-$username = $data['username'];
+$username = $data['username']."@gmail.com";
 $password = $data['password'];
 
 // Validate credentials

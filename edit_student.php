@@ -20,6 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $class = $_POST['class'];
     $annual_fees = $_POST['annual_fees'];
     $phone = $_POST['phone'];
+    $student_address = $_POST['student_address'];
+    $class_time = $_POST['class_time'];
+    $remarks = $_POST['remarks'];
     $teacher_id = $_POST['assigned_teacher'];
     $id = $_GET['id'];
     
@@ -36,9 +39,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if (move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFilePath)) {
                 // Update student with new photo
-                $query = "UPDATE students SET name=?, class=?, annual_fees=?, phone=?, assigned_teacher=?, photo=? WHERE id=?";
+                $query = "UPDATE students SET name=?, class=?, annual_fees=?, phone=?, student_address=?, class_time=?, remarks=?, assigned_teacher=?, photo=? WHERE id=?";
                 $stmt = $conn->prepare($query);
-                $stmt->bind_param("ssssisi", $name, $class, $annual_fees, $phone, $teacher_id, $targetFilePath, $id);
+                $stmt->bind_param("sssssssssi", $name, $class, $annual_fees, $phone, $student_address, $class_time, $remarks, $teacher_id, $targetFilePath, $id);
             } else {
                 echo "<p style='color:red;'>Error uploading photo.</p>";
             }
@@ -47,9 +50,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         // Update student without changing photo
-        $query = "UPDATE students SET name=?, class=?, annual_fees=?, phone=?, assigned_teacher=? WHERE id=?";
+        $query = "UPDATE students SET name=?, class=?, annual_fees=?, phone=?, student_address=?, class_time=?, remarks=?, assigned_teacher=? WHERE id=?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("ssssii", $name, $class, $annual_fees, $phone, $teacher_id, $id);
+        $stmt->bind_param("sssssssii", $name, $class, $annual_fees, $phone, $student_address, $class_time, $remarks, $teacher_id, $id);
     }
 
     if ($stmt->execute()) {
@@ -148,17 +151,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <input type="text" name="phone" class="form-control" value="<?= $student['phone'] ?>" required>
                                 </div>
                                 
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="fas fa-map-marker-alt me-1"></i> Student Address <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea class="form-control" name="student_address" rows="2" required><?= $student['student_address'] ?></textarea>
+                                </div>
+                                
                                 <div class="col-md-4">
                                     <label class="form-label">
-                                        <i class="fas fa-book me-1"></i> Class <span class="text-danger">*</span>
+                                        <i class="fas fa-clock me-1"></i> Class Time <span class="text-danger">*</span>
                                     </label>
-                                    <select name="class" class="form-select" required>
-                                        <option value="">Select Class</option>
-                                        <option value="1" <?= $student['class'] == 1 ? 'selected' : '' ?>>Class 1</option>
-                                        <option value="2" <?= $student['class'] == 2 ? 'selected' : '' ?>>Class 2</option>
-                                        <option value="3" <?= $student['class'] == 3 ? 'selected' : '' ?>>Class 3</option>
-                                        <option value="4" <?= $student['class'] == 4 ? 'selected' : '' ?>>Class 4</option>
-                                        <option value="5" <?= $student['class'] == 5 ? 'selected' : '' ?>>Class 5</option>
+                                    <select name="class_time" class="form-select" required>
+                                        <option value="">Select Class Time</option>
+                                        <option value="Fajar 1st Class" <?= $student['class_time'] == 'Fajar 1st Class' ? 'selected' : '' ?>>Fajar 1st Class</option>
+                                        <option value="Fajar 2nd Class" <?= $student['class_time'] == 'Fajar 2nd Class' ? 'selected' : '' ?>>Fajar 2nd Class</option>
+                                        <option value="Asar 1st Class" <?= $student['class_time'] == 'Asar 1st Class' ? 'selected' : '' ?>>Asar 1st Class</option>
+                                        <option value="Magrib 1st Class" <?= $student['class_time'] == 'Magrib 1st Class' ? 'selected' : '' ?>>Magrib 1st Class</option>
                                     </select>
                                 </div>
                                 
@@ -186,12 +195,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <input type="number" name="annual_fees" class="form-control" value="<?= $student['annual_fees'] ?>" required>
                                 </div>
                                 
+                                <div class="col-md-4">
+                                    <label class="form-label">
+                                        <i class="fas fa-graduation-cap me-1"></i> Class <span class="text-danger">*</span>
+                                    </label>
+                                    <select name="class" class="form-select" required>
+                                        <option value="">Select Class</option>
+                                        <option value="1" <?= $student['class'] == '1' ? 'selected' : '' ?>>1</option>
+                                        <option value="2" <?= $student['class'] == '2' ? 'selected' : '' ?>>2</option>
+                                        <option value="3" <?= $student['class'] == '3' ? 'selected' : '' ?>>3</option>
+                                        <option value="4" <?= $student['class'] == '4' ? 'selected' : '' ?>>4</option>
+                                        <option value="5" <?= $student['class'] == '5' ? 'selected' : '' ?>>5</option>
+                                        <option value="6" <?= $student['class'] == '6' ? 'selected' : '' ?>>6</option>
+                                    </select>
+                                </div>
+                                
                                 <div class="col-md-12">
                                     <label class="form-label">
                                         <i class="fas fa-camera me-1"></i> Photo
                                     </label>
                                     <input type="file" name="photo" class="form-control">
                                     <div class="form-text">Only upload a new photo if you want to change the existing one. Allowed formats: JPG, JPEG, PNG.</div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="form-label">
+                                        <i class="fas fa-comment me-1"></i> Remarks
+                                    </label>
+                                    <textarea class="form-control" name="remarks" rows="3"><?= $student['remarks'] ?></textarea>
                                 </div>
                                 
                                 <div class="col-12 mt-4">

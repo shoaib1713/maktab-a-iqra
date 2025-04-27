@@ -8,6 +8,9 @@ ini_set('display_errors', 0);
 require_once '../config.php';
 require_once __DIR__ . '/../../config/db.php';
 
+// Set timezone to Asia/Kolkata
+date_default_timezone_set('Asia/Kolkata');
+
 // Validate request method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode([
@@ -55,13 +58,33 @@ $location_id = isset($_POST['location_id']) ? intval($_POST['location_id']) : 0;
 $latitude = isset($_POST['latitude']) ? floatval($_POST['latitude']) : 0;
 $longitude = isset($_POST['longitude']) ? floatval($_POST['longitude']) : 0;
 
-    //    file_put_contents('distance_log.txt', json_encode([
-    //     'location_id' => $location_id,
-    //     'latitude' => $latitude,
-    //     'longitude' => $longitude,
-    //     'user_id' => $user_id,
-    //     'user_type' => $user_type
-    // ], JSON_PRETTY_PRINT), FILE_APPEND);
+// Always validate location_id if provided
+if ($location_id > 0) {
+    $locationCheckSql = "SELECT * FROM office_locations WHERE id = ? AND is_active = 1";
+    $locationCheckStmt = $conn->prepare($locationCheckSql);
+    $locationCheckStmt->bind_param("i", $location_id);
+    $locationCheckStmt->execute();
+    $locationResult = $locationCheckStmt->get_result();
+    
+    if ($locationResult->num_rows === 0) {
+        echo json_encode([
+            'status' => false,
+            'message' => 'Invalid office location',
+            'data' => null
+        ]);
+        exit();
+    }
+    
+    $location = $locationResult->fetch_assoc();
+}
+
+       file_put_contents('distance_log_punch_in.txt', json_encode([
+        'location_id' => $location_id,
+        'latitude' => $latitude,
+        'longitude' => $longitude,
+        'user_id' => $user_id,
+        'user_type' => $user_type
+    ], JSON_PRETTY_PRINT), FILE_APPEND);
 
 // Check if geofencing is enabled
 $geofencingEnabled = false;

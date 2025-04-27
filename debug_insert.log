@@ -178,3 +178,93 @@
 2025-04-05 14:49:06 - Uploading file: omid-armin-gSZCLsE7ysc-unsplash.jpg to assets/images/1743857346_omid-armin-gSZCLsE7ysc-unsplash.jpg
 2025-04-05 14:49:06 - Database insert successful for entry #0
 2025-04-05 14:49:06 - All operations completed successfully
+2025-04-27 13:43:32 - Request Method: POST
+2025-04-27 13:43:32 - POST data: Array
+(
+    [action] => add_cheque
+    [cheque_year] => Array
+        (
+            [0] => 2025
+        )
+
+    [cheque_month] => Array
+        (
+            [0] => 2
+        )
+
+    [cheque_given_date] => Array
+        (
+            [0] => 2025-04-27
+        )
+
+    [bank_name] => Array
+        (
+            [0] => SBI
+        )
+
+    [cheque_number] => Array
+        (
+            [0] => abcd123
+        )
+
+    [cheque_amount] => Array
+        (
+            [0] => 45200
+        )
+
+    [cheque_handover_teacher] => Array
+        (
+            [0] => 7
+        )
+
+    [status] => Array
+        (
+            [0] => pending
+        )
+
+)
+
+2025-04-27 13:43:32 - FILES data: Array
+(
+    [cheque_photo] => Array
+        (
+            [name] => Array
+                (
+                    [0] => download (3).jpg
+                )
+
+            [full_path] => Array
+                (
+                    [0] => download (3).jpg
+                )
+
+            [type] => Array
+                (
+                    [0] => image/jpeg
+                )
+
+            [tmp_name] => Array
+                (
+                    [0] => C:\xampp\tmp\php7DD.tmp
+                )
+
+            [error] => Array
+                (
+                    [0] => 0
+                )
+
+            [size] => Array
+                (
+                    [0] => 239502
+                )
+
+        )
+
+)
+
+2025-04-27 13:43:32 - Action: add_cheque
+2025-04-27 13:43:32 - Processing 1 cheque entries
+2025-04-27 13:43:32 - Processing entry #0
+2025-04-27 13:43:32 - Uploading file: download (3).jpg to assets/images/1745741612_download (3).jpg
+2025-04-27 13:43:32 - Database insert successful for entry #0
+2025-04-27 13:43:32 - All operations completed successfully

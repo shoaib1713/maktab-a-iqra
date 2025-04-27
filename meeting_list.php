@@ -236,7 +236,7 @@ $page_title = "Meeting List";
                                                 echo "<ul class='list-unstyled mb-0'>";
                                                 while ($fee = $feesQuery->fetch_assoc()) {
                                                     $totalMeetingFees += $fee['amount'];
-                                                    echo "<li><i class='fas fa-user-circle me-1 text-muted'></i> " . getUserName($fee['admin_id'], $conn) . " - ₹" . number_format($fee['amount']) . "</li>";
+                                                  //  echo "<li><i class='fas fa-user-circle me-1 text-muted'></i> " . getUserName($fee['admin_id'], $conn) . " - ₹" . number_format($fee['amount']) . "</li>";
                                                 }
                                                 echo "</ul>";
                                                 if ($totalMeetingFees > 0) {
